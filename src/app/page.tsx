@@ -47,7 +47,7 @@ export default function Home() {
     }, 10000);
 
     return () => clearInterval(pollInterval);
-  }, [fetchLikes]);
+  }, [fetchLikes, prevLikesRef.current]);
 
   // Check if likes have increased and show notification
   useEffect(() => {
@@ -234,7 +234,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex flex-col items-center text-center max-w-3xl mx-auto z-10">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-accent pink-glow md:leading-18">
-          Happy International Women's Day!
+          Happy International Women&apos;s Day!
         </h1>
 
         <div className="relative mb-8">

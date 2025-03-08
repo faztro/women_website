@@ -1,11 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
 // Path to the file that will store our likes data
 const likesFilePath = path.join(process.cwd(), "likes-data.json");
 
-// Initialize the likes file if it doesn't exist
 function initLikesFile() {
   if (!fs.existsSync(likesFilePath)) {
     fs.writeFileSync(likesFilePath, JSON.stringify({ totalLikes: 0 }));
@@ -20,7 +19,7 @@ function getLikes() {
 }
 
 // Write likes to the file
-function saveLikes(data: any) {
+function saveLikes(data: unknown) {
   fs.writeFileSync(likesFilePath, JSON.stringify(data));
 }
 
@@ -36,7 +35,7 @@ export async function GET() {
 }
 
 // POST handler to increment the like count
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const likesData = getLikes();
     likesData.totalLikes += 1;
