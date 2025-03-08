@@ -18,11 +18,8 @@ export default function Home() {
   // Fetch likes from the server
   const fetchLikes = useCallback(async () => {
     try {
-      const response = await fetch("/api/likes");
-      if (response.ok) {
-        const data = await response.json();
-        setLikes(data.totalLikes || 0);
-      }
+      const like = localStorage.getItem("likes");
+      setLikes(like ? parseInt(like) : 0);
     } catch (error) {
       console.error("Error fetching likes:", error);
     }
@@ -128,32 +125,13 @@ export default function Home() {
   const handleLike = async (e: React.MouseEvent) => {
     if (!hasLiked && !isLoading) {
       try {
-        setIsLoading(true);
-
-        // Send like to server
-        const response = await fetch("/api/likes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setLikes(data.totalLikes || 0);
-          setHasLiked(true);
-
-          // Store that user has liked in localStorage
-          localStorage.setItem("userHasLiked", "true");
-
-          // Add pulse animation
-          addPulseAnimation();
-
-          // Create flying hearts animation
-          createHearts(e.clientX, e.clientY);
-        } else {
-          console.error("Failed to update likes");
-        }
+        const like = localStorage.getItem("likes");
+        localStorage.setItem(
+          "likes",
+          (like ? parseInt(like) + 1 : 1).toString()
+        );
+        setLikes(like ? parseInt(like) + 1 : 1);
+        setHasLiked(true);
       } catch (error) {
         console.error("Error updating likes:", error);
       } finally {
