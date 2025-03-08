@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffebf2;
+  --foreground: #333333;
+  --primary: #ff69b4;
+  --primary-dark: #d6568f;
+  --secondary: #f8bbd0;
+  --accent: #ff1493;
+  --button-glow: rgba(255, 20, 147, 0.6);
+  --button-highlight: rgba(255, 255, 255, 0.2);
 }
 
 @theme inline {
@@ -14,13 +20,278 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #2d0a16;
+    --foreground: #f5f5f5;
+    --primary: #ff69b4;
+    --primary-dark: #d6568f;
+    --secondary: #f8bbd0;
+    --accent: #ff1493;
+    --button-glow: rgba(255, 20, 147, 0.4);
+    --button-highlight: rgba(255, 255, 255, 0.15);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Section for Pink Theme and Decorations */
+.pink-glow {
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7),
+    0 0 20px rgba(255, 105, 180, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+.pink-border {
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+/* Button Highlight Effects */
+.button-highlight {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.button-highlight::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(
+    45deg,
+    var(--accent),
+    var(--primary),
+    var(--secondary),
+    var(--accent)
+  );
+  background-size: 400% 400%;
+  animation: gradient-border 3s ease infinite;
+  border-radius: inherit;
+}
+
+.button-highlight:hover {
+  box-shadow: 0 0 15px var(--button-glow);
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.button-highlight:active {
+  transform: translateY(1px);
+}
+
+.button-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-shine::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    var(--button-highlight) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.button-shine:hover::after {
+  animation: shine 1.5s ease-in-out;
+  opacity: 1;
+}
+
+/* Pulsating glow effect for primary button */
+.primary-button-glow {
+  animation: pulsate 2s ease-in-out infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 105, 180, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: rotate(45deg) translateX(-100%);
+  }
+  100% {
+    transform: rotate(45deg) translateX(100%);
+  }
+}
+
+@keyframes gradient-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Flying Hearts Animation */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-25vh) rotate(90deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-50vh) rotate(180deg);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-75vh) rotate(270deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.flying-heart {
+  position: absolute;
+  z-index: 999;
+  animation: float-up 4s ease-in forwards;
+  pointer-events: none;
+}
+
+/* Heart Button Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse-animation {
+  animation: pulse 0.5s ease-in-out;
+}
+
+/* Like Counter Animation */
+@keyframes likeCounterPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    color: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.like-counter-pulse {
+  animation: likeCounterPulse 1s ease-in-out;
+}
+
+/* Like notification animation */
+@keyframes slideInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.like-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: var(--primary-dark);
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideInUp 3s forwards;
+  border: 1px solid var(--primary);
+  font-weight: 500;
+}
+
+/* Link hover effects */
+.link-hover-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.link-hover-effect::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: rgba(255, 105, 180, 0.2);
+  transition: height 0.3s ease;
+  z-index: -1;
+}
+
+.link-hover-effect:hover::after {
+  height: 100%;
+}
+
+/* Continuous floating animation for decorative elements */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
 }
